@@ -197,6 +197,11 @@ def get_parser(**parser_kwargs):
     parser.add_argument("--init_words", 
         type=str, 
         help="Comma separated list of words used to initialize the embeddigs for training.")
+    
+    parser.add_argument("--log_every_n_steps", 
+        type=int, 
+        help="How often trainer should log steps. Default is 500",
+        default=500)
 
     return parser
 
@@ -806,7 +811,7 @@ if __name__ == "__main__":
 
         trainer_kwargs["callbacks"] = [instantiate_from_config(callbacks_cfg[k]) for k in callbacks_cfg]
         trainer_kwargs["max_steps"] = trainer_opt.max_steps
-        trainer_kwargs["plugins"] = PruningCheckpointIO()
+        #trainer_kwargs["plugins"] = PruningCheckpointIO()
     
         trainer = Trainer.from_argparse_args(trainer_opt, **trainer_kwargs)
         trainer.logdir = logdir  ###
